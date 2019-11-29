@@ -1,0 +1,7 @@
+# main config
+address: 127.0.0.1
+port: 8001
+
+# redis
+
+# mysql
