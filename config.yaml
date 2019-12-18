@@ -1,12 +1,14 @@
 # main config
-address: 127.0.0.1
-port: 8001
+web:
+  address: 127.0.0.1
+  port: 8001
 
 # redis
 
 # mysql
-mysqlAddress: 127.0.0.1
-mysqlPort: 3306
-mysqlUser: ttt
-mysqlPassword: ttt
-mysqlDbName: VirtualJudge
+mysql:
+  address: 127.0.0.1
+  port: 3306
+  username: lengyu
+  password: ccc
+  database: VirtualJudge

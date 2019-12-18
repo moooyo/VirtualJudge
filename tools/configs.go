@@ -8,16 +8,21 @@ import (
 )
 
 type GlobalConfig struct {
-	Address     string `yaml:"address"`
-	Port        int    `yaml:"port"`
-	MysqlConfig MysqlConfig
+	WebConfig   Web   `yaml:"web"`
+	MysqlConfig Mysql `yaml:"mysql"`
 }
-type MysqlConfig struct {
-	Address  string `yaml:"mysqlAddress"`
-	Port     string `yaml:"mysqlPort"`
-	DB       string `yaml:"mysqlDbName"`
-	User     string `yaml:"mysqlUser"`
-	Password string `yaml:"mysqlPassword"`
+
+type Web struct {
+	Address string `yaml:"address"`
+	Port    int    `yaml:"port"`
+}
+
+type Mysql struct {
+	Address  string `yaml:"address"`
+	Port     int    `yaml:"port"`
+	DB       string `yaml:"database"`
+	User     string `yaml:"username"`
+	Password string `yaml:"password"`
 }
 
 var configPath = "config.yaml"
