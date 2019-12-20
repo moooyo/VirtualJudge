@@ -11,10 +11,16 @@ type Problem struct {
 	ProblemID    int
 	ProblemName  string
 	Description  string
-	Input        []string
-	Output       []string
+	TimeLimit    string
+	MemoryLimit  string
+	Input        string
+	Output       string
 	SampleInput  []string
 	SampleOutput []string
-	Language     []int
-	UpdateAt     time.Time
+	Language     []struct {
+		TypeName string
+		ID       int
+	}
+	Source   string
+	UpdateAt time.Time
 }

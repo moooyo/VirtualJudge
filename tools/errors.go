@@ -1,6 +1,9 @@
 package tools
 
+type Err int
+
 const (
-	OK              = 0
-	PostDataInvalid = 1001
+	OK              Err = 0
+	PostDataInvalid Err = 1001
+	ConnectOJError  Err = 2001
 )
