@@ -293,12 +293,11 @@ func (r *POJ) QuerySubmitStatus(rid int) (*StatusResp, error) {
 	if resp.StatusCode != http.StatusOK {
 		return nil, StatusError(resp.StatusCode, u)
 	}
-
 	doc, err := goquery.NewDocumentFromReader(resp.Body)
 	if err != nil {
 		return nil, err
 	}
-	tmp := doc.Find("tr.center").Find("td")
+	tmp := doc.Find("tr.in").Next().Find("td")
 	result := tmp.Eq(3).Text()
 	pid, err := strconv.Atoi(tmp.Eq(2).Text())
 	if err != nil {
@@ -315,7 +314,7 @@ func (r *POJ) QuerySubmitStatus(rid int) (*StatusResp, error) {
 		Info:       result,
 	}
 	if ret.Result == CompileError {
-		u, b := tmp.Eq(3).Attr("href")
+		u, b := tmp.Eq(3).Find("a").Attr("href")
 		if b {
 			u = baseURL + "/" + u
 			resp, _ := http.Get(u)

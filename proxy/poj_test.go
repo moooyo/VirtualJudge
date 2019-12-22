@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var pojTestData = []struct {
+var testLoginData = []struct {
 	username string
 	password string
 	status   bool
@@ -23,7 +23,24 @@ var pojTestData = []struct {
 }
 
 func TestPOJ_LoginStatus(t *testing.T) {
-
+	for _, x := range testLoginData {
+		poj := POJ{
+			username: x.username,
+			password: x.password,
+			cookies:  nil,
+		}
+		err := poj.Login()
+		if err != nil {
+			t.Fail()
+		}
+		b, err := poj.LoginStatus()
+		if err != nil {
+			t.Fail()
+		}
+		if b != x.status {
+			t.Fail()
+		}
+	}
 }
 
 func TestPOJ_GetProblem(t *testing.T) {
@@ -91,4 +108,17 @@ func TestPOJ_Submit(t *testing.T) {
 		}
 		fmt.Println(rid)
 	}
+}
+
+func TestPOJ_QuerySubmitStatus(t *testing.T) {
+	poj := POJ{
+		username: "",
+		password: "",
+		cookies:  nil,
+	}
+	resp, err := poj.QuerySubmitStatus(21168963)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(resp.Info)
 }
