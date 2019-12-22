@@ -259,3 +259,70 @@ func (r *POJ) Submit(args *SubmitArgs) (int, error) {
 	}
 	return rid, nil
 }
+
+func statusStr2int(str string) int {
+	switch str {
+	case "Accepted":
+		return Accepted
+	case "Presentation Error":
+		return PresentationError
+	case "TimeLimitExceeded":
+		return TimeLimitExceeded
+	case "Memory Limit Exceeded":
+		return MemoryLimitExceeded
+	case "Wrong Answer":
+		return WrongAnswer
+	case "Runtime Error":
+		return RuntimeError
+	case "Output Limit Exceeded":
+		return OutputLimitExceeded
+	case "Compile Error":
+		return CompileError
+	default:
+		return UnrecognizedError
+	}
+}
+
+func (r *POJ) QuerySubmitStatus(rid int) (*StatusResp, error) {
+	u := statusUrl + "?top=" + strconv.Itoa(rid)
+	resp, err := http.Get(u)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return nil, StatusError(resp.StatusCode, u)
+	}
+
+	doc, err := goquery.NewDocumentFromReader(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	tmp := doc.Find("tr.center").Find("td")
+	result := tmp.Eq(3).Text()
+	pid, err := strconv.Atoi(tmp.Eq(2).Text())
+	if err != nil {
+		return nil, err
+	}
+	ret := &StatusResp{
+		Result:     statusStr2int(result),
+		Problem:    pid,
+		Memory:     tmp.Eq(4).Text(),
+		Time:       tmp.Eq(5).Text(),
+		Language:   tmp.Eq(6).Text(),
+		Length:     tmp.Eq(7).Text(),
+		SubmitTime: tmp.Eq(8).Text(),
+		Info:       result,
+	}
+	if ret.Result == CompileError {
+		u, b := tmp.Eq(3).Attr("href")
+		if b {
+			u = baseURL + "/" + u
+			resp, _ := http.Get(u)
+			defer resp.Body.Close()
+			doc, _ := goquery.NewDocumentFromReader(resp.Body)
+			ret.Info = doc.Find("pre").Text()
+		}
+	}
+	return ret, nil
+}
