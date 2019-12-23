@@ -45,11 +45,93 @@ Status: 200 OK
 ```json
 {
     "status": "$code",
-    "message": ""
+    "message": "ProblemInfo"
 }
 ```
 
+`ProblemInfo`
 
+***
+
+```go
+package dispatch
+type ProblemInfo struct {
+	OJ           int
+	ProblemID    int
+	ProblemName  string
+	Description  string
+	Source       string
+	TimeLimit    string
+	MemoryLimit  string
+	Input        string
+	Output       string
+	SampleInput  []string
+	SampleOutput []string
+	Language     []struct {
+		TypeName string
+		ID       int
+	}
+}
+```
+
+##### Sample
+
+GET				 `SubURL/1/1004`
+
+Response
+
+```json
+{
+    "message": {
+        "OJ": 1,
+        "ProblemID": 1004,
+        "ProblemName": "Financial Management",
+        "Description": "Larry graduated this year and finally has a job. He's making a lot of money, but somehow never seems to have enough. Larry has decided that he needs to grab hold of his financial portfolio and solve his financing problems. The first step is to figure out what's been going on with his money. Larry has his bank account statements and wants to see how much money he has. Help Larry by writing a program to take his closing balance from each of the past twelve months and calculate his average account balance. ",
+        "Source": "Mid-Atlantic 2001",
+        "TimeLimit": "1000MS",
+        "MemoryLimit": "10000K",
+        "Input": "The input will be twelve lines. Each line will contain the closing balance of his bank account for a particular month. Each number will be positive and displayed to the penny. No dollar sign will be included. ",
+        "Output": "The output will be a single number, the average (mean) of the closing balances for the twelve months. It will be rounded to the nearest penny, preceded immediately by a dollar sign, and followed by the end-of-line. There will be no other spaces or characters in the output. ",
+        "SampleInput": [
+            "100.00\n489.12\n12454.12\n1234.10\n823.05\n109.20\n5.27\n1542.25\n839.18\n83.99\n1295.01\n1.75"
+        ],
+        "SampleOutput": [
+            "$1581.42"
+        ],
+        "Language": [
+            {
+                "TypeName": "G++",
+                "ID": 0
+            },
+            {
+                "TypeName": "GCC",
+                "ID": 1
+            },
+            {
+                "TypeName": "Java",
+                "ID": 2
+            },
+            {
+                "TypeName": "Pascal",
+                "ID": 3
+            },
+            {
+                "TypeName": "C++",
+                "ID": 4
+            },
+            {
+                "TypeName": "C",
+                "ID": 5
+            },
+            {
+                "TypeName": "Fortran",
+                "ID": 6
+            }
+        ]
+    },
+    "status": 0
+}
+```
 
 ## 获取Virtual Judge的评测情况
 
@@ -82,4 +164,36 @@ Status: 200 OK
     "status": "$StatusCode"
 }
 ```
+
+### 获取Virtual Judge的题目信息
+
+需要提供OJ和题号查看题目信息
+
+| type     | value                   |
+| -------- | ----------------------- |
+| method   | GET                     |
+| `SubURL` | `RootURL/problems`      |
+| `URL`    | `SubURL/:OJ/:ProblemID` |
+
+**Request**
+
+***
+
+```json
+
+```
+
+**Response**
+
+***
+
+```json
+{
+    
+}
+```
+
+
+
+
 

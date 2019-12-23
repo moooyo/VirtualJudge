@@ -1,4 +1,4 @@
-package proxy
+package dispatch
 
 import (
 	"encoding/base64"

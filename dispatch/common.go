@@ -1,15 +1,15 @@
-package proxy
+package dispatch
 
 import "fmt"
 
 type OnlineJudge interface {
-	Login()
-	Logout()
-	SetCookie()
-	GetProblem()
-	Submit()
-	QuerySubmitStatus()
-	LoginStatus() bool
+	Login() error
+	//Logout()
+	//SetCookie()
+	GetProblem(problemID int) (*ProblemInfo, error)
+	Submit(args *SubmitArgs) (int, error)
+	QuerySubmitStatus(int) (*StatusResp, error)
+	LoginStatus() (bool, error)
 }
 
 func StatusError(status int, url string) error {
@@ -33,24 +33,6 @@ const (
 	MemoryLimitExceeded
 	OutputLimitExceeded
 )
-
-type ProblemInfo struct {
-	OJ           int
-	ProblemID    int
-	ProblemName  string
-	Description  string
-	Source       string
-	TimeLimit    string
-	MemoryLimit  string
-	Input        string
-	Output       string
-	SampleInput  []string
-	SampleOutput []string
-	Language     []struct {
-		TypeName string
-		ID       int
-	}
-}
 
 type SubmitArgs struct {
 	OJ        int
